@@ -43,6 +43,7 @@ def SendKeyPiKVM(key=str, pikvm_ip=str, login="admin", password="admin", press_t
     ws.send('{"event_type": "key", "event": {"key": "' + key + '", "state": true}}')
     time.sleep(float(press_time))
     ws.send('{"event_type": "key", "event": {"key": "' + key + '", "state": false}}')
+    time.sleep(float(press_time))
     ws.close()
 
 @keyword("Send Key Combination PiKVM")
@@ -123,10 +124,11 @@ def SendKeySeriesPiKVM(key_list=list, pikvm_ip=str, login="admin", password="adm
         ws.send('{"event_type": "key", "event": {"key": "' + key + '", "state": true}}')
         time.sleep(float(press_time))
         ws.send('{"event_type": "key", "event": {"key": "' + key + '", "state": false}}')
+        time.sleep(float(press_time))
     ws.close()
 
 @keyword("Write Text PiKVM")
-def WriteTextPiKVM(text=str, pikvm_ip=str, login="admin", password="admin"):
+def WriteTextPiKVM(text=str, pikvm_ip=str, login="admin", password="admin", press_time=0.2):
     '''
     WARNING: Supports only small characters.
     ---\n
@@ -197,6 +199,7 @@ def WriteTextPiKVM(text=str, pikvm_ip=str, login="admin", password="admin"):
     ws.connect(uri, header=headers)
     for char in char_list:
         ws.send('{"event_type": "key", "event": {"key": "' + keymap[char] + '", "state": true}}')
-        time.sleep(0.2)
+        time.sleep(float(press_time))
         ws.send('{"event_type": "key", "event": {"key": "' + keymap[char] + '", "state": false}}')
+        time.sleep(float(press_time))
     ws.close()
