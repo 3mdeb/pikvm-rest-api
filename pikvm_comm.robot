@@ -11,9 +11,9 @@ Write PiKVM
     ...                pikvm_ip - IP of the piKVM to send key input,
     ...                login - piKVM login,
     ...                password - piKVM password
-    [Arguments]    ${text}    ${login}=admin    ${password}=admin
-    Write Text PiKVM    ${text}    ${pikvm_ip}    ${login}    ${password}
-    Single Key PiKVM    Enter    ${pikvm_ip}    ${login}    ${password}
+    [Arguments]    ${text}    ${login}=admin    ${password}=admin    ${press_time}=0.05
+    Write Text PiKVM    ${text}    ${pikvm_ip}    ${login}    ${password}    ${press_time}
+    Single Key PiKVM    Enter    ${login}    ${password}    ${press_time}
 
 Write Bare PiKVM
     [Documentation]    Keyword for PiKVM writing bare into Terminal.
