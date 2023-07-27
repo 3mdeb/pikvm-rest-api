@@ -188,9 +188,60 @@ def WriteTextPiKVM(text=str, pikvm_ip=str, login="admin", password="admin", pres
         "/": "Slash",
         "*": "NumpadMultiply",
         "+": "NumpadAdd",
+        "\n":"Enter",
     }
 
-    char_list = list(text.lower())
+    shift_keymap = {
+        "A": "KeyA",
+        "B": "KeyB",
+        "C": "KeyC",
+        "D": "KeyD",
+        "E": "KeyE",
+        "F": "KeyF",
+        "G": "KeyG",
+        "H": "KeyH",
+        "I": "KeyI",
+        "J": "KeyJ",
+        "K": "KeyK",
+        "L": "KeyL",
+        "M": "KeyM",
+        "N": "KeyN",
+        "O": "KeyO",
+        "P": "KeyP",
+        "Q": "KeyQ",
+        "R": "KeyR",
+        "S": "KeyS",
+        "T": "KeyT",
+        "U": "KeyU",
+        "V": "KeyV",
+        "W": "KeyW",
+        "X": "KeyX",
+        "Y": "KeyY",
+        "Z": "KeyZ",
+        "!": "Digit1",
+        "@": "Digit2",
+        "#": "Digit3",
+        "$": "Digit4",
+        "%": "Digit5",
+        "^": "Digit6",
+        "&": "Digit7",
+        "*": "Digit8",
+        "(": "Digit9",
+        ")": "Digit0",
+        "_": "Minus",
+        "+": "Equal",
+        "\{": "BracketLeft",
+        "\}": "BracketRight",
+        "|": "Backslash",
+        ":": "Semicolon",
+        "\"": "Quote",
+        "~": "Backquote",
+        "<": "Comma",
+        ">": "Period",
+        "?": "Slash",
+    }
+
+    char_list = list(text)
 
     uri = f"wss://{pikvm_ip}/api/ws?stream=0"
     headers = {"X-KVMD-User": login, "X-KVMD-Passwd": password}
@@ -198,8 +249,16 @@ def WriteTextPiKVM(text=str, pikvm_ip=str, login="admin", password="admin", pres
 
     ws.connect(uri, header=headers)
     for char in char_list:
-        ws.send('{"event_type": "key", "event": {"key": "' + keymap[char] + '", "state": true}}')
-        time.sleep(float(press_time))
-        ws.send('{"event_type": "key", "event": {"key": "' + keymap[char] + '", "state": false}}')
-        time.sleep(float(press_time))
+        if char in shift_keymap:
+            ws.send('{"event_type": "key", "event": {"key": "ShiftRight", "state": true} }')
+            time.sleep(float(press_time))
+            ws.send('{"event_type": "key", "event": {"key": "' + shift_keymap[char] + '", "state": true} }')
+            time.sleep(float(press_time))
+            ws.send('{"event_type": "key", "event": {"key": "' + shift_keymap[char] + '", "state": false} }')
+            ws.send('{"event_type": "key", "event": {"key": "ShiftRight", "state": false} }')
+        else:
+            ws.send('{"event_type": "key", "event": {"key": "' + keymap[char] + '", "state": true} }')
+            time.sleep(float(press_time))
+            ws.send('{"event_type": "key", "event": {"key": "' + keymap[char] + '", "state": false} }')
+
     ws.close()
