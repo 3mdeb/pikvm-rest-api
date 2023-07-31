@@ -57,3 +57,17 @@ Key Combination PiKVM
     ...                possible keys can be found in `lib/pikvm_comm.py`
     [Arguments]    ${key}    ${login}=admin    ${password}=admin    ${press_time}=0.05
     Send Key Combination PiKVM    ${key_list}    ${pikvm_ip}    ${login}    ${password}    ${press_time}
+
+Check if iso image is present
+    [Documentation]    Checks if image with name ${image_name} exists.
+    ...                Returns True/False
+    [Arguments]    ${image_name}    ${pikvm_ip}
+    ${result}=    Iso image present    ${image_name}    ${pikvm_ip}
+    [Return]    ${result}
+
+Upload iso image
+    [Documentation]    Uploads given iso image (${path_to_image}) and saves it
+    ...                as ${image_name}
+    [Arguments]    ${image_name}    ${path_to_image}    ${pikvm_ip}
+    ${res}=    Upload image    ${image_name}    ${path_to_image}    ${pikvm_ip}
+    [Return]    ${res}

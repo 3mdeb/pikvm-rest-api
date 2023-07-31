@@ -2,6 +2,9 @@ try:
     import websocket
     import time
     import ssl
+    import json
+    from websocket import WebSocketBadStatusException
+    import requests
     from robot.api.deco import keyword
     ROBOT = False
 except Exception:
@@ -200,3 +203,39 @@ def WriteTextPiKVM(text=str, pikvm_ip=str, login="admin", password="admin"):
         time.sleep(0.2)
         ws.send('{"event_type": "key", "event": {"key": "' + keymap[char] + '", "state": false}}')
     ws.close()
+
+@keyword("Iso image present")
+def iso_image_present(image_name, pikvm_ip=str, login="admin", password="admin"):
+    """
+    image_name - name of the iso image to be found
+    pikvm_ip - IP of the piKVM to send key input,\n
+    login - piKVM login\n
+    password - piKVM password\n
+    """
+    images = get_all_images(pikvm_ip, login, password)
+    return image_name in images
+
+@keyword("Upload image")
+def upload_image(image_name, path_to_image, pikvm_ip, login="admin", password="admin"):
+    url = f"https://{pikvm_ip}/api/msd/write?image={image_name}"
+
+    with open(path_to_image, "rb") as iso_file:
+        binary_data = iso_file.read()
+
+    headers = {"X-KVMD-User": login, "X-KVMD-Passwd": password}
+
+    response = requests.post(url, data=binary_data, headers=headers, verify=False)
+    return response
+
+def get_all_images(pikvm_ip, login, password):
+    uri = f"wss://{pikvm_ip}/api/msd"
+    headers = {"X-KVMD-User": login, "X-KVMD-Passwd": password}
+    ws = websocket.WebSocket(sslopt={"cert_reqs": ssl.CERT_NONE})
+    try:
+        ws.connect(uri, header=headers)
+        response = ws.recv()
+        parsed_json = json.loads(response)
+    except WebSocketBadStatusException as e:
+        parsed_json = json.loads(e.resp_body)
+
+    return parsed_json["result"]["storage"]["images"].keys()
