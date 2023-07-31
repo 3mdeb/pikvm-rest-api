@@ -71,3 +71,9 @@ Upload iso image
     [Arguments]    ${image_name}    ${path_to_image}    ${pikvm_ip}
     ${res}=    Upload image    ${image_name}    ${path_to_image}    ${pikvm_ip}
     [Return]    ${res}
+
+Mount iso image
+    [Documentation]    Mounts given iso image to CD-ROM. Assumes that
+    ...                ${image_name} is already uploaded.
+    [Arguments]    ${image_name}    ${pikvm_ip}    ${login}=admin    ${password}=admin
+    Iso image mount    ${image_name}    ${pikvm_ip}    ${login}    ${password}

@@ -239,3 +239,12 @@ def get_all_images(pikvm_ip, login, password):
         parsed_json = json.loads(e.resp_body)
 
     return parsed_json["result"]["storage"]["images"].keys()
+
+@keyword("Iso image mount")
+def iso_image_mount(image_name, pikvm_ip, login, password):
+    url = f"https://{pikvm_ip}/api/msd/set_params?image={image_name}&cdrom=1"
+
+    headers = {"X-KVMD-User": login, "X-KVMD-Passwd": password}
+
+    response = requests.post(url, headers=headers, verify=False)
+    return response
