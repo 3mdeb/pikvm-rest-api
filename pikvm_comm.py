@@ -228,15 +228,12 @@ def upload_image(image_name, path_to_image, pikvm_ip, login="admin", password="a
     return response
 
 def get_all_images(pikvm_ip, login, password):
-    uri = f"wss://{pikvm_ip}/api/msd"
+    url = f"https://{pikvm_ip}/api/msd"
     headers = {"X-KVMD-User": login, "X-KVMD-Passwd": password}
-    ws = websocket.WebSocket(sslopt={"cert_reqs": ssl.CERT_NONE})
-    try:
-        ws.connect(uri, header=headers)
-        response = ws.recv()
-        parsed_json = json.loads(response)
-    except WebSocketBadStatusException as e:
-        parsed_json = json.loads(e.resp_body)
+
+    response = requests.get(url, headers=headers, verify=False)
+
+    parsed_json = json.loads(response.content)
 
     return parsed_json["result"]["storage"]["images"].keys()
 
