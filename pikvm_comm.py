@@ -239,7 +239,7 @@ def get_all_images(pikvm_ip, login, password):
 
 @keyword("Iso image mount")
 def iso_image_mount(image_name, pikvm_ip, login, password):
-    url = f"https://{pikvm_ip}/api/msd/set_params?image={image_name}&cdrom=1"
+    url = f"https://{pikvm_ip}/api/msd/set_params?image={image_name}&cdrom=0"
 
     headers = {"X-KVMD-User": login, "X-KVMD-Passwd": password}
 
