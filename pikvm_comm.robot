@@ -54,5 +54,5 @@ Key Combination PiKVM
     ...    password - (str) piKVM password,
     ...    press_time - (float) time the key will remain pressed(s),
     ...    possible keys can be found in `lib/pikvm_comm.py`
-    [Arguments]    ${key}    ${login}=admin    ${password}=admin    ${press_time}=0.2
+    [Arguments]    ${key_list}    ${login}=admin    ${password}=admin    ${press_time}=0.2
     Send Key Combination PiKVM    ${key_list}    ${pikvm_ip}    ${login}    ${password}    ${press_time}
