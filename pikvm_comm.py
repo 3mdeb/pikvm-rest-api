@@ -1,15 +1,20 @@
 try:
-    import websocket
-    import time
     import ssl
+    import time
+
+    import websocket
     from robot.api.deco import keyword
+
     ROBOT = False
 except Exception:
     ROBOT = False
 
+
 @keyword("Send Key PiKVM")
-def SendKeyPiKVM(key=str, pikvm_ip=str, login="admin", password="admin", press_time=0.2):
-    '''
+def SendKeyPiKVM(
+    key=str, pikvm_ip=str, login="admin", password="admin", press_time=0.2
+):
+    """
     key - the key to be pressed,\n
     pikvm_ip - IP of the piKVM to send key input,\n
     login - piKVM login\n
@@ -33,7 +38,7 @@ def SendKeyPiKVM(key=str, pikvm_ip=str, login="admin", password="admin", press_t
     'NumpadEnter', 'Numpad1', 'Numpad2', 'Numpad3', 'Numpad4', 'Numpad5',\n
     'Numpad6', 'Numpad7', 'Numpad8', 'Numpad9', 'Numpad0', 'NumpadDecimal',\n
     'Power', 'IntlBackslash', 'IntlYen'
-    '''
+    """
 
     uri = f"wss://{pikvm_ip}/api/ws?stream=0"
     headers = {"X-KVMD-User": login, "X-KVMD-Passwd": password}
@@ -46,9 +51,12 @@ def SendKeyPiKVM(key=str, pikvm_ip=str, login="admin", password="admin", press_t
     time.sleep(float(press_time))
     ws.close()
 
+
 @keyword("Send Key Combination PiKVM")
-def SendKeyCombinationPiKVM(key_list=list, pikvm_ip=str, login="admin", password="admin", press_time=0.5):
-    '''
+def SendKeyCombinationPiKVM(
+    key_list=list, pikvm_ip=str, login="admin", password="admin", press_time=0.5
+):
+    """
     key_list - list of keys to be pressed at once,\n
     pikvm_ip - IP of the piKVM to send key input,\n
     login - piKVM login\n
@@ -72,7 +80,7 @@ def SendKeyCombinationPiKVM(key_list=list, pikvm_ip=str, login="admin", password
     'NumpadEnter', 'Numpad1', 'Numpad2', 'Numpad3', 'Numpad4', 'Numpad5',\n
     'Numpad6', 'Numpad7', 'Numpad8', 'Numpad9', 'Numpad0', 'NumpadDecimal',\n
     'Power', 'IntlBackslash', 'IntlYen'
-    '''
+    """
 
     uri = f"wss://{pikvm_ip}/api/ws?stream=0"
     headers = {"X-KVMD-User": login, "X-KVMD-Passwd": password}
@@ -84,12 +92,17 @@ def SendKeyCombinationPiKVM(key_list=list, pikvm_ip=str, login="admin", password
         time.sleep(float(press_time))
 
     for key in key_list:
-        ws.send('{"event_type": "key", "event": {"key": "' + key + '", "state": false}}')
+        ws.send(
+            '{"event_type": "key", "event": {"key": "' + key + '", "state": false}}'
+        )
     ws.close()
 
+
 @keyword("Send Key Series PiKVM")
-def SendKeySeriesPiKVM(key_list=list, pikvm_ip=str, login="admin", password="admin", press_time=0.2):
-    '''
+def SendKeySeriesPiKVM(
+    key_list=list, pikvm_ip=str, login="admin", password="admin", press_time=0.2
+):
+    """
     key_list - list of keys to be pressed one after another,\n
     pikvm_ip - IP of the piKVM to send key input,\n
     login - piKVM login\n
@@ -113,7 +126,7 @@ def SendKeySeriesPiKVM(key_list=list, pikvm_ip=str, login="admin", password="adm
     'NumpadEnter', 'Numpad1', 'Numpad2', 'Numpad3', 'Numpad4', 'Numpad5',\n
     'Numpad6', 'Numpad7', 'Numpad8', 'Numpad9', 'Numpad0', 'NumpadDecimal',\n
     'Power', 'IntlBackslash', 'IntlYen'
-    '''
+    """
 
     uri = f"wss://{pikvm_ip}/api/ws?stream=0"
     headers = {"X-KVMD-User": login, "X-KVMD-Passwd": password}
@@ -123,20 +136,25 @@ def SendKeySeriesPiKVM(key_list=list, pikvm_ip=str, login="admin", password="adm
     for key in key_list:
         ws.send('{"event_type": "key", "event": {"key": "' + key + '", "state": true}}')
         time.sleep(float(press_time))
-        ws.send('{"event_type": "key", "event": {"key": "' + key + '", "state": false}}')
+        ws.send(
+            '{"event_type": "key", "event": {"key": "' + key + '", "state": false}}'
+        )
         time.sleep(float(press_time))
     ws.close()
 
+
 @keyword("Write Text PiKVM")
-def WriteTextPiKVM(text=str, pikvm_ip=str, login="admin", password="admin", press_time=0.2):
-    '''
+def WriteTextPiKVM(
+    text=str, pikvm_ip=str, login="admin", password="admin", press_time=0.2
+):
+    """
     WARNING: Supports only small characters.
     ---\n
     text - text to be written,\n
     pikvm_ip - IP of the piKVM to send key input,\n
     login - piKVM login\n
     password - piKVM password\n
-    '''
+    """
     keymap = {
         "a": "KeyA",
         "b": "KeyB",
@@ -188,7 +206,7 @@ def WriteTextPiKVM(text=str, pikvm_ip=str, login="admin", password="admin", pres
         "/": "Slash",
         "*": "NumpadMultiply",
         "+": "NumpadAdd",
-        "\n":"Enter",
+        "\n": "Enter",
     }
 
     shift_keymap = {
@@ -234,7 +252,7 @@ def WriteTextPiKVM(text=str, pikvm_ip=str, login="admin", password="admin", pres
         "\}": "BracketRight",
         "|": "Backslash",
         ":": "Semicolon",
-        "\"": "Quote",
+        '"': "Quote",
         "~": "Backquote",
         "<": "Comma",
         ">": "Period",
@@ -250,15 +268,35 @@ def WriteTextPiKVM(text=str, pikvm_ip=str, login="admin", password="admin", pres
     ws.connect(uri, header=headers)
     for char in char_list:
         if char in shift_keymap:
-            ws.send('{"event_type": "key", "event": {"key": "ShiftRight", "state": true} }')
+            ws.send(
+                '{"event_type": "key", "event": {"key": "ShiftRight", "state": true} }'
+            )
             time.sleep(float(press_time))
-            ws.send('{"event_type": "key", "event": {"key": "' + shift_keymap[char] + '", "state": true} }')
+            ws.send(
+                '{"event_type": "key", "event": {"key": "'
+                + shift_keymap[char]
+                + '", "state": true} }'
+            )
             time.sleep(float(press_time))
-            ws.send('{"event_type": "key", "event": {"key": "' + shift_keymap[char] + '", "state": false} }')
-            ws.send('{"event_type": "key", "event": {"key": "ShiftRight", "state": false} }')
+            ws.send(
+                '{"event_type": "key", "event": {"key": "'
+                + shift_keymap[char]
+                + '", "state": false} }'
+            )
+            ws.send(
+                '{"event_type": "key", "event": {"key": "ShiftRight", "state": false} }'
+            )
         else:
-            ws.send('{"event_type": "key", "event": {"key": "' + keymap[char] + '", "state": true} }')
+            ws.send(
+                '{"event_type": "key", "event": {"key": "'
+                + keymap[char]
+                + '", "state": true} }'
+            )
             time.sleep(float(press_time))
-            ws.send('{"event_type": "key", "event": {"key": "' + keymap[char] + '", "state": false} }')
+            ws.send(
+                '{"event_type": "key", "event": {"key": "'
+                + keymap[char]
+                + '", "state": false} }'
+            )
 
     ws.close()
