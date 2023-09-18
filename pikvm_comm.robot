@@ -1,5 +1,7 @@
 *** Settings ***
-Library     pikvm_comm.py
+Documentation       This library exposes PiKVM REST API as RF keywords
+
+Library             pikvm_comm.py
 
 
 *** Keywords ***
