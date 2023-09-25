@@ -1,7 +1,12 @@
 try:
+    import warnings
+
+    warnings.filterwarnings("ignore")
+
     import ssl
     import time
 
+    import requests
     import websocket
     from robot.api.deco import keyword
 
@@ -300,3 +305,37 @@ def WriteTextPiKVM(
             )
 
     ws.close()
+
+
+@keyword("Mount Image PiKVM")
+def MountImagePiKVM(pikvm_ip=str, img_name=str, login="admin", password="admin"):
+    """
+    ---\n
+    pikvm_ip - IP of the piKVM to send key input,\n
+    img_name - name of the image to be mounted,\n
+    login - piKVM login\n
+    password - piKVM password\n
+    """
+    headers_login = {"X-KVMD-User": login, "X-KVMD-Passwd": password}
+    uri = f"https://{pikvm_ip}/api/msd/set_connected?connected=0"
+    x = requests.post(uri, headers=headers_login, verify=False)
+    uri = f"https://{pikvm_ip}/api/msd/set_params?image={img_name}&cdrom=0"
+    x = requests.post(uri, headers=headers_login, verify=False)
+    uri = f"https://{pikvm_ip}/api/msd/set_connected?connected=1"
+    x = requests.post(uri, headers=headers_login, verify=False)
+
+
+@keyword("Upload Image PiKVM")
+def UploadImagePiKVM(pikvm_ip=str, img_url=str, login="admin", password="admin"):
+    """
+    ---\n
+    pikvm_ip - IP of the piKVM to send key input,\n
+    img_url - URL of the image to be uploaded,\n
+    login - piKVM login\n
+    password - piKVM password\n
+    """
+    headers_login = {"X-KVMD-User": login, "X-KVMD-Passwd": password}
+    uri = f"https://{pikvm_ip}/api/msd/set_connected?connected=0"
+    x = requests.post(uri, headers=headers_login, verify=False)
+    uri = f"https://{pikvm_ip}/api/msd/write_remote?url={img_url}"
+    x = requests.post(uri, headers=headers_login, verify=False)
