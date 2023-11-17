@@ -326,7 +326,9 @@ def MountImagePiKVM(pikvm_ip=str, img_name=str, login="admin", password="admin")
 
 
 @keyword("Upload Image PiKVM")
-def UploadImagePiKVM(pikvm_ip=str, img_url=str, login="admin", password="admin"):
+def UploadImagePiKVM(
+    pikvm_ip=str, img_url=str, img_name=str, login="admin", password="admin"
+):
     """
     ---\n
     pikvm_ip - IP of the piKVM to send key input,\n
@@ -336,6 +338,9 @@ def UploadImagePiKVM(pikvm_ip=str, img_url=str, login="admin", password="admin")
     """
     headers_login = {"X-KVMD-User": login, "X-KVMD-Passwd": password}
     uri = f"https://{pikvm_ip}/api/msd/set_connected?connected=0"
+    x = requests.post(uri, headers=headers_login, verify=False)
+    # "remove" added because "write_remote" itself did not overwrite the old image.
+    uri = f"https://{pikvm_ip}/api/msd/remove?image={img_name}"
     x = requests.post(uri, headers=headers_login, verify=False)
     uri = f"https://{pikvm_ip}/api/msd/write_remote?url={img_url}"
     x = requests.post(uri, headers=headers_login, verify=False)
