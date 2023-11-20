@@ -74,5 +74,5 @@ Upload Image To PiKVM
     ...    password - (str) piKVM password,
     ...    pikvm_ip - (str) IP of the piKVM to mount the image on,
     ...    img_url - (str) URL of the image to be mounted
-    [Arguments]    ${pikvm_ip}    ${img_url}    ${login}=admin    ${password}=admin
-    Upload Image PiKVM    ${pikvm_ip}    ${img_url}    ${login}    ${password}
+    [Arguments]    ${pikvm_ip}    ${img_url}    ${img_name}    ${login}=admin    ${password}=admin
+    Upload Image PiKVM    ${pikvm_ip}    ${img_url}    ${img_name}    ${login}    ${password}
