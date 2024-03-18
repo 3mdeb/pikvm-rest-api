@@ -20,7 +20,7 @@ repos:
       - id: mixed-line-ending
 
   - repo: https://github.com/talos-systems/conform
-    rev: v0.1.0-alpha.28
+    rev: v0.1.0-alpha.30
     hooks:
       - id: conform
         stages:
@@ -44,12 +44,12 @@ repos:
         name: isort (python)
 
   - repo: https://github.com/psf/black
-    rev: 24.2.0
+    rev: 24.3.0
     hooks:
     - id: black
 
   - repo: https://github.com/MarketSquare/robotframework-tidy
-    rev: 4.9.0
+    rev: 4.11.0
     hooks:
       - id: robotidy
 
