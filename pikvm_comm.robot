@@ -2,6 +2,7 @@
 Documentation       This library exposes PiKVM REST API as RF keywords
 
 Library             pikvm_comm.py
+Resource            pikvm-credentials.robot
 
 
 *** Keywords ***
@@ -12,7 +13,7 @@ Write PiKVM
     ...    pikvm_ip - IP of the piKVM to send key input,
     ...    login - piKVM login,
     ...    password - piKVM password
-    [Arguments]    ${text}    ${login}=admin    ${password}=admin    ${press_time}=0.1
+    [Arguments]    ${text}    ${login}=${PIKVM_USERNAME}    ${password}=${PIKVM_PASSWORD}    ${press_time}=0.1
     Write Text PiKVM    ${text}    ${PIKVM_IP}    ${login}    ${password}    ${press_time}
     Single Key PiKVM    Enter    ${login}    ${password}    ${press_time}
 
@@ -23,7 +24,7 @@ Write Bare PiKVM
     ...    pikvm_ip - IP of the piKVM to send key input,
     ...    login - piKVM login,
     ...    password - piKVM password
-    [Arguments]    ${text}    ${login}=admin    ${password}=admin
+    [Arguments]    ${text}    ${login}=${PIKVM_USERNAME}    ${password}=${PIKVM_PASSWORD}
     Write Text PiKVM    ${text}    ${PIKVM_IP}    ${login}    ${password}
 
 Single Key PiKVM
@@ -34,7 +35,7 @@ Single Key PiKVM
     ...    password - (str) piKVM password,
     ...    press_time - (float) time the key will remain pressed(s),
     ...    possible keys can be found in `lib/pikvm_comm.py`
-    [Arguments]    ${key}    ${login}=admin    ${password}=admin    ${press_time}=0.2
+    [Arguments]    ${key}    ${login}=${PIKVM_USERNAME}    ${password}=${PIKVM_PASSWORD}    ${press_time}=0.2
     Send Key PiKVM    ${key}    ${PIKVM_IP}    ${login}    ${password}    ${press_time}
 
 Multiple Keys PiKVM
@@ -45,7 +46,7 @@ Multiple Keys PiKVM
     ...    password - (str) piKVM password
     ...    press_time - (float) time the key will remain pressed(s),
     ...    possible keys can be found in `lib/pikvm_comm.py`
-    [Arguments]    ${key_list}    ${login}=admin    ${password}=admin    ${press_time}=0.1
+    [Arguments]    ${key_list}    ${login}=${PIKVM_USERNAME}    ${password}=${PIKVM_PASSWORD}    ${press_time}=0.1
     Send Key Series PiKVM    ${key_list}    ${PIKVM_IP}    ${login}    ${password}    ${press_time}
 
 Key Combination PiKVM
@@ -56,7 +57,7 @@ Key Combination PiKVM
     ...    password - (str) piKVM password,
     ...    press_time - (float) time the key will remain pressed(s),
     ...    possible keys can be found in `lib/pikvm_comm.py`
-    [Arguments]    ${key_list}    ${login}=admin    ${password}=admin    ${press_time}=0.2
+    [Arguments]    ${key_list}    ${login}=${PIKVM_USERNAME}    ${password}=${PIKVM_PASSWORD}    ${press_time}=0.2
     Send Key Combination PiKVM    ${key_list}    ${PIKVM_IP}    ${login}    ${password}    ${press_time}
 
 Mount Image On PiKVM
@@ -65,7 +66,7 @@ Mount Image On PiKVM
     ...    password - (str) piKVM password,
     ...    pikvm_ip - (str) IP of the piKVM to mount the image on,
     ...    img_name - (str) URL of the image to be mounted
-    [Arguments]    ${pikvm_ip}    ${img_name}    ${login}=admin    ${password}=admin
+    [Arguments]    ${pikvm_ip}    ${img_name}    ${login}=${PIKVM_USERNAME}    ${password}=${PIKVM_PASSWORD}
     Mount Image PiKVM    ${pikvm_ip}    ${img_name}    ${login}    ${password}
 
 Upload Image To PiKVM
@@ -74,5 +75,10 @@ Upload Image To PiKVM
     ...    password - (str) piKVM password,
     ...    pikvm_ip - (str) IP of the piKVM to mount the image on,
     ...    img_url - (str) URL of the image to be mounted
-    [Arguments]    ${pikvm_ip}    ${img_url}    ${img_name}    ${login}=admin    ${password}=admin
+    [Arguments]
+    ...    ${pikvm_ip}
+    ...    ${img_url}
+    ...    ${img_name}
+    ...    ${login}=${PIKVM_USERNAME}
+    ...    ${password}=${PIKVM_PASSWORD}
     Upload Image PiKVM    ${pikvm_ip}    ${img_url}    ${img_name}    ${login}    ${password}
