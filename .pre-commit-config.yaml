@@ -54,6 +54,6 @@ repos:
       - id: robotidy
 
   - repo: https://github.com/MarketSquare/robotframework-robocop
-    rev: 5.1.0
+    rev: 5.2.0
     hooks:
       - id: robocop
