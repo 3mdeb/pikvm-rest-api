@@ -365,4 +365,3 @@ def UploadImagePiKVM(
     x = requests.post(uri, headers=headers_login, verify=False)
     uri = f"https://{pikvm_ip}/api/msd/write_remote?image={img_path}"
     x = requests.post(uri, headers=headers_login, verify=False)
-
