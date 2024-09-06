@@ -344,3 +344,25 @@ def UploadImagePiKVM(
     x = requests.post(uri, headers=headers_login, verify=False)
     uri = f"https://{pikvm_ip}/api/msd/write_remote?url={img_url}"
     x = requests.post(uri, headers=headers_login, verify=False)
+
+
+@keyword("Copy Image PIKVM")
+def UploadImagePiKVM(
+    pikvm_ip=str, img_path=str, img_name=str, login="admin", password="admin"
+):
+    """
+    ---\n
+    pikvm_ip - IP of the piKVM to send key input,\n
+    img_path - file path of the image to be uploaded,\n
+    login - piKVM login\n
+    password - piKVM password\n
+    """
+    headers_login = {"X-KVMD-User": login, "X-KVMD-Passwd": password}
+    uri = f"https://{pikvm_ip}/api/msd/set_connected?connected=0"
+    x = requests.post(uri, headers=headers_login, verify=False)
+    # "remove" added because "write_remote" itself did not overwrite the old image.
+    uri = f"https://{pikvm_ip}/api/msd/remove?image={img_name}"
+    x = requests.post(uri, headers=headers_login, verify=False)
+    uri = f"https://{pikvm_ip}/api/msd/write_remote?image={img_path}"
+    x = requests.post(uri, headers=headers_login, verify=False)
+
