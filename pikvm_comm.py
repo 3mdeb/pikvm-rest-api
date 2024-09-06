@@ -347,7 +347,7 @@ def UploadImagePiKVM(
 
 
 @keyword("Copy Image PIKVM")
-def UploadImagePiKVM(
+def CopyImagePiKVM(
     pikvm_ip=str, img_path=str, img_name=str, login="admin", password="admin"
 ):
     """
