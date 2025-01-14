@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "pikvm"
+version = "0.1.0"
+description = "Client library for PiKVM REST API"
+authors = ["Maciej Pijanowski <maciej.pijanowski@3mdeb.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+requests = "^2.32.3"
+websocket-client = "^1.8.0"
+robotframework = "^7.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
