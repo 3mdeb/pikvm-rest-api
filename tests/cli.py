@@ -1,7 +1,7 @@
 import argparse
 import sys
 
-from pikvm_client import PiKVMClient
+from pikvm.client import PiKVMClient
 
 
 class PiKVMTests:
