@@ -10,7 +10,7 @@ readme = "README.md"
 python = "^3.8"
 requests = "^2.31.0"
 websocket-client = "^1.8.0"
-robotframework = "^5.0"
+robotframework = ">=5.0"
 
 
 [build-system]
